@@ -5,7 +5,7 @@ class UrlDecrufterTest < Minitest::Test
     refute_nil ::UrlDecrufter::VERSION
   end
 
-  def test_it_does_something_useful
-    assert false
+  def test_it_returns_cruft_free_url_unmodified
+    assert_equal "http://www.google.co.uk/", UrlDecrufter::decruft("http://www.google.co.uk/")
   end
 end
