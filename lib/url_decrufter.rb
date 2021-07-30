@@ -37,7 +37,18 @@ module UrlDecrufter
     end
   end
 
-  FILTERS = [GoogleAnalytics]
+  class GUCE < UrlFilter
+    def filter
+      filtered_params = params.reject do |name, value|
+        name.start_with?("guce_") || name == "guccounter"
+      end
+      update_params(filtered_params)
+
+      uri
+    end
+  end
+
+  FILTERS = [GoogleAnalytics, GUCE]
 
   def self.decruft(url)
     uri = URI(url)
