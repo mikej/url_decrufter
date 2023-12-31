@@ -48,7 +48,19 @@ module UrlDecrufter
     end
   end
 
-  FILTERS = [GoogleAnalytics, GUCE]
+  # Filter to strip the `cmdf` query param used by The Magic Highlighter (Safari extension)
+  class MagicHighlighter < UrlFilter
+    def filter
+      filtered_params = params.reject do |name, value|
+        name == "cmdf"
+      end
+      update_params(filtered_params)
+
+      uri
+    end
+  end
+
+  FILTERS = [GoogleAnalytics, GUCE, MagicHighlighter]
 
   def self.decruft(url)
     uri = URI(url)
