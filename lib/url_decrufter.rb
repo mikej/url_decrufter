@@ -73,9 +73,21 @@ module UrlDecrufter
     end
   end
   
+  class OpenSubstack < UrlFilter
+    def filtered_params
+      params.reject do |name, value|
+        name == "r"
+      end
+    end
+    
+    def filter_applies?
+      domain == "open.substack.com"
+    end
+  end
+  
   
 
-  FILTERS = [GoogleAnalytics, GUCE, MagicHighlighter]
+  FILTERS = [GoogleAnalytics, GUCE, MagicHighlighter, OpenSubstack]
 
   def self.decruft(url)
     uri = URI(url)
