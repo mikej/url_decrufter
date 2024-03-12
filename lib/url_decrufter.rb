@@ -42,6 +42,10 @@ module UrlDecrufter
     def filter_applies?
       true
     end
+    
+    def domain
+      @uri.host
+    end
   end
 
   class GoogleAnalytics < UrlFilter
