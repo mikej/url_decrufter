@@ -35,10 +35,6 @@ module UrlDecrufter
       uri
     end
     
-    def filtered_params
-      params
-    end
-    
     def filter_applies?
       true
     end
