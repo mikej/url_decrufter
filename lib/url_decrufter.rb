@@ -14,10 +14,10 @@ module UrlDecrufter
       return [] if @uri.query.nil?
       @uri.query.split("&").map { |p| p.split("=") }
     end
-    
+
     def filtered_params
       params
-    end 
+    end
 
     def update_params(new_params)
       # may end up with 0 query params after filtering, in which case set query to
@@ -28,17 +28,17 @@ module UrlDecrufter
         @uri.query = nil
       end
     end
-    
+
     def filter
       update_params(filtered_params) if filter_applies?
-      
+
       uri
     end
-    
+
     def filter_applies?
       true
     end
-    
+
     def domain
       @uri.host
     end
@@ -68,22 +68,32 @@ module UrlDecrufter
       end
     end
   end
-  
+
   class OpenSubstack < UrlFilter
     def filtered_params
       params.reject do |name, value|
         name == "r"
       end
     end
-    
+
     def filter_applies?
       domain == "open.substack.com"
     end
   end
-  
-  
 
-  FILTERS = [GoogleAnalytics, GUCE, MagicHighlighter, OpenSubstack]
+  class LinkedIn < UrlFilter
+    def filtered_params
+      params.reject do |name, value|
+        name == "trackingId"
+      end
+    end
+
+    def filter_applies?
+      domain == "www.linkedin.com"
+    end
+  end
+
+  FILTERS = [GoogleAnalytics, GUCE, MagicHighlighter, OpenSubstack, LinkedIn]
 
   def self.decruft(url)
     uri = URI(url)
