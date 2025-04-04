@@ -84,7 +84,7 @@ module UrlDecrufter
   class LinkedIn < UrlFilter
     def filtered_params
       params.reject do |name, value|
-        name == "trackingId"
+        %[trackingId refId midToken trkEmail eid otpToken].include? name
       end
     end
 
